@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiplication Table</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    input {
+      width: 50px;
+      padding: 5px;
+      margin-right: 10px;
+    }
+    table {
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Multiplication Table Generator</h1>
+    <input type="number" id="numberInput" placeholder="Enter a number" min="1">
+    <button onclick="generateTable()">Generate</button>
+    <table id="multiplicationTable"></table>
+  </div>
+
+  <script>
+    function generateTable() {
+      const num = document.getElementById('numberInput').value;
+      const table = document.getElementById('multiplicationTable');
+      table.innerHTML = ''; // Clear previous table content
+
+      if (num === '' || num <= 0) {
+        alert('Please enter a positive number.');
+        return;
+      }
+
+      const headerRow = table.insertRow();
+      const header1 = headerRow.insertCell();
+      const header2 = headerRow.insertCell();
+      const header3 = headerRow.insertCell();
+      header1.innerHTML = '<b>Number</b>';
+      header2.innerHTML = '<b>x</b>';
+      header3.innerHTML = '<b>Result</b>';
+
+      for (let i = 1; i <= 10; i++) {
+        const row = table.insertRow();
+        row.insertCell().innerText = num;
+        row.insertCell().innerText = i;
+        row.insertCell().innerText = num * i;
+      }
+    }
+  </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Marks Entry</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        pre {
+            background-color: #e8e8e8;
+            padding: 10px;
+            overflow: auto;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Marks Entry</h1>
+        <label for="numStudents">Enter number of students:</label>
+        <input type="number" id="numStudents" min="1" />
+        <button onclick="generateForm()">Submit</button>
+
+        <form id="studentForm" style="display: none;" onsubmit="return handleFormSubmit(event)">
+            <div id="studentInputs"></div>
+            <button type="submit">Print Results</button>
+        </form>
+
+        <pre id="result"></pre>
+    </div>
+
+    <script>
+        function generateForm() {
+            const numStudents = document.getElementById('numStudents').value;
+            const studentInputs = document.getElementById('studentInputs');
+            studentInputs.innerHTML = ''; // Clear any previous input fields
+
+            for (let i = 1; i <= numStudents; i++) {
+                studentInputs.innerHTML += `
+                    <h3>Student ${i}</h3>
+                    <input type="text" placeholder="Enter name" name="name${i}" required />
+                    <input type="number" placeholder="Enter mark 1" name="mark1_${i}" required />
+                    <input type="number" placeholder="Enter mark 2" name="mark2_${i}" required />
+                    <input type="number" placeholder="Enter mark 3" name="mark3_${i}" required />
+                `;
+            }
+
+            document.getElementById('studentForm').style.display = 'block';
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const numStudents = document.getElementById('numStudents').value;
+            const students = [];
+
+            for (let i = 1; i <= numStudents; i++) {
+                const name = event.target[`name${i}`].value;
+                const mark1 = parseInt(event.target[`mark1_${i}`].value);
+                const mark2 = parseInt(event.target[`mark2_${i}`].value);
+                const mark3 = parseInt(event.target[`mark3_${i}`].value);
+                const total = mark1 + mark2 + mark3;
+
+                students.push({ name, marks: [mark1, mark2, mark3], total });
+            }
+
+            document.getElementById('result').textContent = JSON.stringify(students, null, 2);
+        }
+    </script>
+</body>
+</html>
